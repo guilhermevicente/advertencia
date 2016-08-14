@@ -39,13 +39,11 @@ public class CadCategoriaViewImpl extends GenericViewImpl implements CadCategori
 	private List<CadCategoriaViewListener> listeners = new ArrayList<CadCategoriaViewListener>();
 
 	public CadCategoriaViewImpl() {
-		tabela = new Table();
 
+		tabela = new Table();
 		tabela.addContainerProperty("id", Integer.class, null);
 		tabela.addContainerProperty("nome", String.class, null);
-
 		tabela.setSizeFull();
-
 		tabela.addValueChangeListener(new Property.ValueChangeListener() {
 			public void valueChange(ValueChangeEvent event) {
 				Integer categoria = (Integer) tabela.getValue();
@@ -60,8 +58,6 @@ public class CadCategoriaViewImpl extends GenericViewImpl implements CadCategori
 					fieldGroup.setItemDataSource(new Teste());
 					excluir.setEnabled(false);
 				}
-				
-				// FIXME Implementar remoção
 			}
 		});
 
@@ -77,15 +73,12 @@ public class CadCategoriaViewImpl extends GenericViewImpl implements CadCategori
 				try {
 					fieldGroup.commit();
 					Teste categoria = fieldGroup.getItemDataSource().getBean();
-					if (!categoria.getNome().trim().isEmpty()) {
-						for (CadCategoriaViewListener l : listeners) {
-							l.salvar(categoria);
-						}
-					} else {
-						// FIXME Mensagem.alerta("O nome não foi preenchido");
+					
+					for (CadCategoriaViewListener l : listeners) {
+						l.salvar(categoria);
 					}
 				} catch (CommitException e) {
-					// FIXME Mensagem.erro("Não foi possível gravar!");
+					e.getStackTrace();
 				}
 			}
 		});
@@ -110,7 +103,7 @@ public class CadCategoriaViewImpl extends GenericViewImpl implements CadCategori
 				try {
 					fieldGroup.commit();
 				} catch (CommitException e) {
-					// FIXME : Mensagem.erro("Não foi remover!");
+					e.getStackTrace();
 				}
 
 				Teste p = fieldGroup.getItemDataSource().getBean();
@@ -154,11 +147,7 @@ public class CadCategoriaViewImpl extends GenericViewImpl implements CadCategori
 		Label tituloTela = new Label("Teste da tela");
 		tituloTela.setStyleName("h1");
 		
-		HorizontalLayout tituloTelaBotaoAjuda = new HorizontalLayout();
-		tituloTelaBotaoAjuda.addComponents(tituloTela);
-		tituloTelaBotaoAjuda.setSizeFull();
-
-		this.addComponents(tituloTelaBotaoAjuda, painelManutencao, panelListagem);
+		this.addComponents(tituloTela, painelManutencao, panelListagem);
 		this.setSpacing(true);
 		this.setMargin(true);
 
