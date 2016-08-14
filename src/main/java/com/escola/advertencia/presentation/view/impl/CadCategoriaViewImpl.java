@@ -1,10 +1,7 @@
 package com.escola.advertencia.presentation.view.impl;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.ejb.Stateful;
 
@@ -15,24 +12,15 @@ import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.server.FileResource;
-import com.vaadin.server.Page;
-import com.vaadin.server.Resource;
-import com.vaadin.server.VaadinService;
-import com.vaadin.server.WebBrowser;
-import com.vaadin.shared.Position;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Video;
 
 @SuppressWarnings("serial")
 @Stateful
@@ -45,31 +33,35 @@ public class CadCategoriaViewImpl extends GenericViewImpl implements CadCategori
 	private TextField nome;
 	private Button salvar, cancelar, excluir;
 
-	// Titulo da pagina
-	private Label tituloTela = new Label("Teste da tela");
-
 	// Elementos da Tabela e Paginacao
 	private Table tabela;
 
 	private List<CadCategoriaViewListener> listeners = new ArrayList<CadCategoriaViewListener>();
 
 	public CadCategoriaViewImpl() {
-		Map<String, String> headers = new LinkedHashMap<String, String>();
-		headers.put("nome", "Nome da Categoria");
-		headers.put("ativo", "Ativo");
-
 		tabela = new Table();
-		tabela.setWidthUndefined();
+
+		tabela.addContainerProperty("id", Integer.class, null);
+		tabela.addContainerProperty("nome", String.class, null);
+
+		tabela.setSizeFull();
+
 		tabela.addValueChangeListener(new Property.ValueChangeListener() {
 			public void valueChange(ValueChangeEvent event) {
-				Teste categoria = (Teste) tabela.getValue();
+				Integer categoria = (Integer) tabela.getValue();
 
 				if (categoria != null) {
 					excluir.setEnabled(true);
+					
+					for (CadCategoriaViewListener l : listeners)
+						l.itemSelecionado(categoria);
+					
 				} else {
 					fieldGroup.setItemDataSource(new Teste());
 					excluir.setEnabled(false);
 				}
+				
+				// FIXME Implementar remoção
 			}
 		});
 
@@ -154,9 +146,14 @@ public class CadCategoriaViewImpl extends GenericViewImpl implements CadCategori
 		listagem.setSpacing(true);
 		listagem.addComponents(tableLabel, tabela);
 
+		listagem.setWidth("100%");
+
 		Panel panelListagem = new Panel();
 		panelListagem.setContent(listagem);
 
+		Label tituloTela = new Label("Teste da tela");
+		tituloTela.setStyleName("h1");
+		
 		HorizontalLayout tituloTelaBotaoAjuda = new HorizontalLayout();
 		tituloTelaBotaoAjuda.addComponents(tituloTela);
 		tituloTelaBotaoAjuda.setSizeFull();
@@ -171,41 +168,10 @@ public class CadCategoriaViewImpl extends GenericViewImpl implements CadCategori
 		fieldGroup.bindMemberFields(this);
 	}
 
-	protected VerticalLayout getAjudaTelaCategoria() {
-		WebBrowser browser = UI.getCurrent().getPage().getWebBrowser();
-		if (browser.isIE()) {
-			// FIXME Mensagem.alertaVideoNavegadorIE("Verificamos que você está
-			// utilizando o IE. Caso o vídeo não abra nos próximos segundos,
-			// contate o administrador.");
-		}
-
-		String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
-
-		final Resource mp4Resource = new FileResource(new File(basepath + "/WEB-INF/video/categoria.mp4"));
-
-		final Resource ogvResource = new FileResource(new File(basepath + "/WEB-INF/video/ogv/categoria.ogv"));
-
-		Video video = new Video();
-		video.setSources(mp4Resource, ogvResource);
-		video.setSizeFull();
-		video.setHtmlContentAllowed(true);
-		video.setAltText("Não foi possível reproduzir o video");
-		video.setWidth("100%");
-		video.setHeight("100%");
-		video.setAutoplay(true);
-
-		VerticalLayout embeddedLayout = new VerticalLayout();
-		embeddedLayout.addComponent(video);
-		embeddedLayout.setWidth("100%");
-		embeddedLayout.setHeight("100%");
-
-		return embeddedLayout;
-	}
-
 	@Override
 	public void enter(ViewChangeEvent event) {
 		for (CadCategoriaViewListener l : listeners)
-			l.enter(true);
+			l.enter();
 	}
 
 	@Override
@@ -221,30 +187,16 @@ public class CadCategoriaViewImpl extends GenericViewImpl implements CadCategori
 
 	@Override
 	public void mostrarTabela(List<Teste> lista) {
-		tabela.addItems(lista);
-	}
+		tabela.removeAllItems();
 
-	@Override
-	public void sucesso(String msg) {
-		fieldGroup.setItemDataSource(new Teste());
-		excluir.setEnabled(false);
-
-		Notification n = new Notification(msg);
-		n.setDelayMsec(3000);
-		n.setStyleName("bar success closable");
-		n.setPosition(Position.BOTTOM_LEFT);
-		n.show(Page.getCurrent());
-	}
-
-	@Override
-	public void falha(String msg) {
-		fieldGroup.setItemDataSource(new Teste());
-		excluir.setEnabled(false);
-
-		Notification n = new Notification(msg);
-		n.setDelayMsec(3000);
-		n.setStyleName("bar failure closable");
-		n.setPosition(Position.BOTTOM_LEFT);
-		n.show(Page.getCurrent());
+		for (Teste teste : lista) {
+//			Object newItemId = tabela.addItem();
+//
+//			Item row1 = tabela.getItem(newItemId);
+//			row1.getItemProperty("id").setValue(teste.getId());
+//			row1.getItemProperty("nome").setValue(teste.getNome());
+			
+			tabela.addItem(new Object[] { teste.getId(), teste.getNome()}, teste.getId());
+		}
 	}
 }

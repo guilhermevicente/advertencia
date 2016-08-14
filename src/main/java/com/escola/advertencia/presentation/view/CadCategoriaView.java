@@ -11,7 +11,7 @@ public interface CadCategoriaView extends View, Component {
 		void salvar(Teste objeto);
 		void itemSelecionado(Integer id);
 		void excluir(Teste objeto);
-		void enter(boolean todos);
+		void enter();
 	}	
 	
 	public void addListener(CadCategoriaViewListener listener);
@@ -19,9 +19,4 @@ public interface CadCategoriaView extends View, Component {
 	void editar(Teste objeto);
 
 	void mostrarTabela(List<Teste> lista);
-	
-	void sucesso(String msg);
-	
-	void falha(String msg);
-
 }

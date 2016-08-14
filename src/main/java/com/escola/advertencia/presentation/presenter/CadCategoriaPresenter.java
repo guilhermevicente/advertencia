@@ -1,5 +1,8 @@
 package com.escola.advertencia.presentation.presenter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateful;
 import javax.naming.NamingException;
@@ -35,31 +38,30 @@ public class CadCategoriaPresenter implements CadCategoriaViewListener, Presente
 	}
 
 	@Override
-	public void enter(boolean todos) {
-		// view.mostrarTabela(lista);
+	public void enter() {
+		List<Teste> testes = new ArrayList<>(this.categoriaBO.listAll());
+		view.mostrarTabela(testes);
 	}
 
 	@Override
 	public void salvar(Teste categoria) {
 		this.categoriaBO.saveOrUpdate(categoria);
+		this.enter();
 	}
 
 	@Override
 	public void itemSelecionado(Integer id) {
-		// view.editar(categoriaBO.find(id));
+		view.editar(categoriaBO.find(id));
 	}
 
 	@Override
 	public void excluir(Teste objeto) {
-		// try {
-		// categoriaBO.delete(objeto);
-		// view.sucesso("Excluí­do com sucesso!");
-		// //view.mostrarTabela(bo.listAll());
-		// enter(false);
-		// } catch(Exception ex){
-		// view.falha("Não foi possível excluir a categoria, verifique se ela
-		// possui algum tipo de distribuição vinculado.");
-		// }
+		 try {
+			 categoriaBO.delete(objeto);
+			 this.enter();
+		 } catch(Exception ex){
+			 ex.getStackTrace();
+		 }
 	}
 
 	public CadCategoriaView getView() {
