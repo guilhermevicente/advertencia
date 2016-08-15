@@ -2,8 +2,6 @@
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="advertencia">
 		<jta-data-source>java:jboss/datasources/PostgresDS</jta-data-source>
-
-		<class>com.escola.advertencia.model.Teste</class>
 		<class>com.escola.advertencia.model.Estado</class>
 		<class>com.escola.advertencia.model.Cidade</class>
 		<class>com.escola.advertencia.model.Bairro</class>

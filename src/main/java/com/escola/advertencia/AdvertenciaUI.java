@@ -2,7 +2,7 @@ package com.escola.advertencia;
 
 import javax.servlet.annotation.WebServlet;
 
-import com.escola.advertencia.presentation.presenter.CadCategoriaPresenter;
+import com.escola.advertencia.presentation.presenter.PerfilPresenter;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.annotations.Widgetset;
@@ -23,7 +23,7 @@ public class AdvertenciaUI extends UI {
 
 		navigator = new Navigator(this, this);
 		
-		navigator.addView("categoria", new CadCategoriaPresenter().getView());
+		navigator.addView("perfil", new PerfilPresenter().getView());
 
 		getNavigator().addView(SimpleLoginView.NAME, SimpleLoginView.class);
 		getNavigator().addView(SimpleLoginMainView.NAME, SimpleLoginMainView.class);

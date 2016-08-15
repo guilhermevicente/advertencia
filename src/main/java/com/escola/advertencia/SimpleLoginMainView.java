@@ -39,9 +39,6 @@ public class SimpleLoginMainView extends CustomComponent implements View {
     	
     	menu.addComponent(text);
     	
-    	// FIXME : Teste, remover depois
-    	menu.addComponent(new Button("Categoria-Teste", new ButtonListener("categoria")));
-    	
     	Button advertenciaBtn = new Button("Advertência", new ButtonListener("advertencia"));
     	advertenciaBtn.setEnabled(false);
     	advertenciaBtn.setWidth("100%");
@@ -78,7 +75,6 @@ public class SimpleLoginMainView extends CustomComponent implements View {
 		menu.addComponent(usuarioBtn);
 		
     	Button perfilBtn = new Button("perfil", new ButtonListener("perfil"));
-    	perfilBtn.setEnabled(false);
     	perfilBtn.setWidth("100%");
 		menu.addComponent(perfilBtn);
 		
