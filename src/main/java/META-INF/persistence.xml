@@ -4,6 +4,20 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http:/
 		<jta-data-source>java:jboss/datasources/PostgresDS</jta-data-source>
 
 		<class>com.escola.advertencia.model.Teste</class>
+		<class>com.escola.advertencia.model.Estado</class>
+		<class>com.escola.advertencia.model.Cidade</class>
+		<class>com.escola.advertencia.model.Bairro</class>
+		<class>com.escola.advertencia.model.Escola</class>
+		<class>com.escola.advertencia.model.EscolaFuncionario</class>
+		<class>com.escola.advertencia.model.Aluno</class>
+		<class>com.escola.advertencia.model.Funcionario</class>
+		<class>com.escola.advertencia.model.Advertencia</class>
+		<class>com.escola.advertencia.model.TipoAdvertencia</class>
+		<class>com.escola.advertencia.model.Responsavel</class>
+		<class>com.escola.advertencia.model.ResponsavelAluno</class>
+		<class>com.escola.advertencia.model.Usuario</class>
+		<class>com.escola.advertencia.model.Perfil</class>
+		<class>com.escola.advertencia.model.Pessoa</class>
 
 		<properties>
 			<!--  propriedades do hibernate -->
@@ -11,7 +25,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http:/
 			<property name="hibernate.format_sql" value="true" />
 
 			<!--  atualiza o banco, gera as tabelas se for preciso -->
-<!-- 			<property name="hibernate.hbm2ddl.auto" value="create" /> -->
+			<property name="hibernate.hbm2ddl.auto" value="create" />
 
 		</properties>
 	</persistence-unit>
