@@ -1,7 +1,14 @@
 package com.escola.advertencia;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+import javax.naming.NamingException;
+
+import com.escola.advertencia.bo.UsuarioBO;
+import com.escola.advertencia.utils.EJBUtility;
 import com.vaadin.data.validator.AbstractValidator;
-import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.shared.ui.MarginInfo;
@@ -28,15 +35,15 @@ public class SimpleLoginView extends CustomComponent implements View, Button.Cli
 		setSizeFull();
 
 		// Create the user input field
-		user = new TextField("User:");
+		user = new TextField("Usuário:");
 		user.setWidth("300px");
 		user.setRequired(true);
-		user.setInputPrompt("Your username (eg. joe@email.com)");
-		user.addValidator(new EmailValidator("Username must be an email address"));
+		user.setInputPrompt("Nome de usuário");
+		// user.addValidator(new EmailValidator("Username must be an email address"));
 		user.setInvalidAllowed(false);
 
 		// Create the password input field
-		password = new PasswordField("Password:");
+		password = new PasswordField("Senha:");
 		password.setWidth("300px");
 		password.addValidator(new PasswordValidator());
 		password.setRequired(true);
@@ -48,7 +55,7 @@ public class SimpleLoginView extends CustomComponent implements View, Button.Cli
 
 		// Add both to a panel
 		VerticalLayout fields = new VerticalLayout(user, password, loginButton);
-		fields.setCaption("Please login to access the application. (test@test.com/passw0rd)");
+		fields.setCaption("Insira seu usuário e senha");
 		fields.setSpacing(true);
 		fields.setMargin(new MarginInfo(true, true, true, false));
 		fields.setSizeUndefined();
@@ -106,12 +113,40 @@ public class SimpleLoginView extends CustomComponent implements View, Button.Cli
 
 		String username = user.getValue();
 		String password = this.password.getValue();
+		String password_md5 = "";
+		
+		try {
+			MessageDigest algorithm = MessageDigest.getInstance("SHA-256");
+			byte messageDigest[] = algorithm.digest(password.getBytes("UTF-8"));
+			StringBuilder hexString = new StringBuilder();
+			
+			for (byte b : messageDigest) {
+			  hexString.append(String.format("%02X", 0xFF & b));
+			}
+			
+			password_md5 = hexString.toString();
+		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
 
 		//
 		// Validate username and password with database here. For examples sake
 		// I use a dummy username and password.
 		//
-		boolean isValid = username.equals("test@test.com") && password.equals("passw0rd");
+		
+		UsuarioBO usuarioBO = null;
+		
+		try {
+			usuarioBO = (UsuarioBO) EJBUtility.getInitialContext()
+					.lookup("java:module/UsuarioBOImpl!com.escola.advertencia.bo.UsuarioBO");
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		// boolean isValid = username.equals("test@test.com") && password.equals("passw0rd");
+		
+		boolean isValid = usuarioBO.autenticar(username, password_md5);
 
 		if (isValid) {
 
