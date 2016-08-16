@@ -55,7 +55,6 @@ public class SimpleLoginMainView extends CustomComponent implements View {
 		menu.addComponent(funcionarioBtn);
 				
     	Button tipoAdvertenciaBtn = new Button("Tipo de Advertência", new ButtonListener("tipoadvertencia"));
-    	tipoAdvertenciaBtn.setEnabled(false);
     	tipoAdvertenciaBtn.setWidth("100%");
 		menu.addComponent(tipoAdvertenciaBtn);
 		
