@@ -87,19 +87,14 @@ public class AdvertenciaViewImpl extends GenericViewImpl implements AdvertenciaV
 		texto = new TextField("Texto");
 		texto.setNullRepresentation("");
 		texto.setRequired(true);
-		texto.setWidth("100%");
 
 		dataEmissao = new DateField();
-		dataEmissao.setWidth("100%");
 		
 		funcionario = new ComboBox();
-		funcionario.setWidth("100%");
 		
 		tipoAdvertencia = new ComboBox();
-		tipoAdvertencia.setWidth("100%");
 		
 		alunoCombo = new ComboBox();
-		alunoCombo.setWidth("100%");
 		
 		salvar = new Button("Salvar");
 		salvar.addStyleName("friendly");

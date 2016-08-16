@@ -12,6 +12,7 @@ import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -65,10 +66,22 @@ public class PerfilViewImpl extends GenericViewImpl implements PerfilView {
 		nome = new TextField("Nome do perfil");
 		nome.setNullRepresentation("");
 		nome.setRequired(true);
-
+		
+		// CSS
+		nome.setIcon(FontAwesome.USER);
+		nome.addStyleName("large");
+		nome.addStyleName("inline-icon");
+		nome.setWidth("100%");
+				
 		permissao = new TextField("Permissão para perfil");
 		permissao.setNullRepresentation("");
 		permissao.setRequired(true);
+		
+		// CSS
+		permissao.setIcon(FontAwesome.USER);
+		permissao.addStyleName("large");
+		permissao.addStyleName("inline-icon");
+		permissao.setWidth("100%");
 		
 		salvar = new Button("Salvar");
 		salvar.addStyleName("friendly");
