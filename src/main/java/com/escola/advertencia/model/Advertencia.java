@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(schema="advertencia", name="tb_advertencia")
@@ -37,9 +38,10 @@ public class Advertencia implements Serializable {
 	@JoinColumn(name = "tipo_advertencia")
     private TipoAdvertencia tipoAdvertencia;
 	
-	@ManyToOne
-	@JoinColumn(name = "aluno")
-    private Aluno aluno;
+	private Integer aluno;
+	
+	@Transient
+	private Aluno alunoT;
     
     public Advertencia() {
     }
@@ -84,12 +86,20 @@ public class Advertencia implements Serializable {
         this.tipoAdvertencia = tipoAdvertencia;
     }
     
-    public Aluno getAluno() {
+    public Integer getAluno() {
 		return aluno;
 	}
 
-	public void setAluno(Aluno aluno) {
+	public void setAluno(Integer aluno) {
 		this.aluno = aluno;
+	}
+	
+	public Aluno getAlunoT() {
+		return alunoT;
+	}
+
+	public void setAlunoT(Aluno alunoT) {
+		this.alunoT = alunoT;
 	}
 
 	@Override

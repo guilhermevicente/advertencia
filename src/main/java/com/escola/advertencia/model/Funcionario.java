@@ -20,6 +20,9 @@ public class Funcionario extends Pessoa {
 	@OneToMany(mappedBy="funcionario")
     private List<Advertencia> advertencias;
     
+	@OneToMany(mappedBy="funcionario")
+	private List<EscolaFuncionario> escolasFuncionarios;
+	
     public Funcionario() {
     }
     
@@ -39,7 +42,15 @@ public class Funcionario extends Pessoa {
         this.advertencias = advertencias;
     }
     
-    @Override
+    public List<EscolaFuncionario> getEscolasFuncionarios() {
+		return escolasFuncionarios;
+	}
+
+	public void setEscolasFuncionarios(List<EscolaFuncionario> escolasFuncionarios) {
+		this.escolasFuncionarios = escolasFuncionarios;
+	}
+
+	@Override
     public int hashCode() {
         int hash = 7;
         hash = 67 * hash + Objects.hashCode(this.registroFuncionario);
@@ -60,4 +71,9 @@ public class Funcionario extends Pessoa {
         }
         return true;
     }
+
+	@Override
+	public String toString() {
+		return this.getNome();
+	}
 }

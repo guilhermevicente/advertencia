@@ -40,7 +40,6 @@ public class SimpleLoginMainView extends CustomComponent implements View {
     	menu.addComponent(text);
     	
     	Button advertenciaBtn = new Button("Advertência", new ButtonListener("advertencia"));
-    	advertenciaBtn.setEnabled(false);
     	advertenciaBtn.setWidth("100%");
     	menu.addComponent(advertenciaBtn);
     	
@@ -73,7 +72,7 @@ public class SimpleLoginMainView extends CustomComponent implements View {
     	usuarioBtn.setWidth("100%");
 		menu.addComponent(usuarioBtn);
 		
-    	Button perfilBtn = new Button("perfil", new ButtonListener("perfil"));
+    	Button perfilBtn = new Button("Perfil", new ButtonListener("perfil"));
     	perfilBtn.setWidth("100%");
 		menu.addComponent(perfilBtn);
 		
@@ -118,6 +117,6 @@ public class SimpleLoginMainView extends CustomComponent implements View {
         String username = String.valueOf(getSession().getAttribute("user"));
 
         // And show the username
-        text.setValue("Hello " + username);
+        text.setValue("Olá " + username);
     }
 }

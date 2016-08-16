@@ -1,6 +1,7 @@
 package com.escola.advertencia.model;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -8,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -26,6 +28,9 @@ public class TipoAdvertencia implements Serializable {
 	@Column(name="nivel")
     private Integer nivel;
 
+	@OneToMany(mappedBy="tipoAdvertencia")
+    private List<Advertencia> advertencias;
+	
     public TipoAdvertencia() {
     }
 
@@ -52,8 +57,16 @@ public class TipoAdvertencia implements Serializable {
     public void setNivel(Integer nivel) {
         this.nivel = nivel;
     }
+    
+    public List<Advertencia> getAdvertencias() {
+		return advertencias;
+	}
 
-    @Override
+	public void setAdvertencias(List<Advertencia> advertencias) {
+		this.advertencias = advertencias;
+	}
+
+	@Override
     public int hashCode() {
         int hash = 5;
         hash = 59 * hash + Objects.hashCode(this.nome);
@@ -78,4 +91,9 @@ public class TipoAdvertencia implements Serializable {
         }
         return true;
     }
+
+	@Override
+	public String toString() {
+		return this.nome;
+	}
 }

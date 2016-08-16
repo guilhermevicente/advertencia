@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -19,13 +20,13 @@ public class Aluno extends Pessoa {
 	@Column(name="registro_aluno")
 	private Integer registroAluno;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "escola")
     private Escola escola;
 	
-	@OneToMany(mappedBy="aluno")
-    private List<Advertencia> advertencias;
-    
+	@OneToMany(mappedBy="aluno", fetch=FetchType.LAZY)
+    private List<ResponsavelAluno> responsaveisAluno;
+	
     public Aluno() {
     }
 
@@ -51,16 +52,16 @@ public class Aluno extends Pessoa {
     public void setEscola(Escola escola) {
         this.escola = escola;
     }
-
-    public List<Advertencia> getAdvertencias() {
-        return advertencias;
-    }
-
-    public void setAdvertencias(List<Advertencia> advertencias) {
-        this.advertencias = advertencias;
-    }
     
-    @Override
+    public List<ResponsavelAluno> getResponsaveisAluno() {
+		return responsaveisAluno;
+	}
+
+	public void setResponsaveisAluno(List<ResponsavelAluno> responsaveisAluno) {
+		this.responsaveisAluno = responsaveisAluno;
+	}
+
+	@Override
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;
@@ -74,4 +75,9 @@ public class Aluno extends Pessoa {
         }
         return true;
     }
+
+	@Override
+	public String toString() {
+		return this.getNome();
+	}
 }
