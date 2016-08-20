@@ -4,22 +4,25 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
-public class SimpleLoginMainView extends CustomComponent implements View {
+public class MainView extends CustomComponent implements View {
+
+	private static final long serialVersionUID = 1254133243683901868L;
 
 	class ButtonListener implements Button.ClickListener {
-        String menuitem;
+
+		private static final long serialVersionUID = 113449381873827815L;
+		
+		String menuitem;
         public ButtonListener(String menuitem) {
             this.menuitem = menuitem;
         }
 
         @Override
         public void buttonClick(ClickEvent event) {
-            // Navigate to a specific state
             getUI().getNavigator().navigateTo(menuitem);
         }
     }
@@ -30,7 +33,7 @@ public class SimpleLoginMainView extends CustomComponent implements View {
 
     
 
-    public SimpleLoginMainView() {
+    public MainView() {
     	VerticalLayout menu = new VerticalLayout();
     	
     	menu.setMargin(true);
@@ -93,13 +96,13 @@ public class SimpleLoginMainView extends CustomComponent implements View {
     	
     	Button logout = new Button("Logout", new Button.ClickListener() {
 
-            @Override
+			private static final long serialVersionUID = -6545986834433887480L;
+
+			@Override
             public void buttonClick(ClickEvent event) {
 
-                // "Logout" the user
                 getSession().setAttribute("user", null);
                 
-                // Refresh this view, should redirect to login view
                 getUI().getNavigator().navigateTo(NAME);
             }
         });
@@ -113,10 +116,8 @@ public class SimpleLoginMainView extends CustomComponent implements View {
 
     @Override
     public void enter(ViewChangeEvent event) {
-        // Get the user name from the session
         String username = String.valueOf(getSession().getAttribute("user"));
 
-        // And show the username
         text.setValue("Olá " + username);
     }
 }

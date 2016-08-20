@@ -18,6 +18,8 @@ import com.vaadin.ui.UI;
 @Widgetset("com.escola.advertencia.MyAppWidgetset")
 public class AdvertenciaUI extends UI {
 
+	private static final long serialVersionUID = -8212548596849760705L;
+	
 	Navigator navigator;
 	
 	@Override
@@ -30,25 +32,22 @@ public class AdvertenciaUI extends UI {
 		navigator.addView("advertencia", new AdvertenciaPresenter().getView());
 
 		getNavigator().addView(SimpleLoginView.NAME, SimpleLoginView.class);
-		getNavigator().addView(SimpleLoginMainView.NAME, SimpleLoginMainView.class);
+		getNavigator().addView(MainView.NAME, MainView.class);
 		getNavigator().addViewChangeListener(new ViewChangeListener() {
+
+			private static final long serialVersionUID = -4687412248788612075L;
 
 			@Override
 			public boolean beforeViewChange(ViewChangeEvent event) {
 
-				// Check if a user has logged in
 				boolean isLoggedIn = getSession().getAttribute("user") != null;
 				boolean isLoginView = event.getNewView() instanceof SimpleLoginView;
 
 				if (!isLoggedIn && !isLoginView) {
-					// Redirect to login view always if a user has not yet
-					// logged in
 					getNavigator().navigateTo(SimpleLoginView.NAME);
 					return false;
 
 				} else if (isLoggedIn && isLoginView) {
-					// If someone tries to access to login view while logged in,
-					// then cancel
 					return false;
 				}
 
@@ -62,6 +61,7 @@ public class AdvertenciaUI extends UI {
 		});
 	}
 	
+	@SuppressWarnings("serial")
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = AdvertenciaUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
